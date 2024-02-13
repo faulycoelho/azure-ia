@@ -64,3 +64,52 @@ Create a new Automated ML job with the following settings, using Next as require
 
 Submit the training job. It starts automatically.
 Wait for the job to finish. It might take a while.
+
+
+
+## Deploy and test the model
+On the Model tab for the best model trained by your automated machine learning job, select Deploy and use the Web service option to deploy the model with the following settings:
+- Name: predict-rentals
+- Description: Predict cycle rentals
+- Compute type: Azure Container Instance
+
+Wait for the deployment to start - this may take a few seconds. The Deploy status for the predict-rentals endpoint will be indicated in the main part of the page as Running.
+Wait for the Deploy status to change to Succeeded. This may take 5-10 minutes.
+
+
+## Test the deployed service
+Now you can test your deployed service.
+
+1. In Azure Machine Learning studio, on the left hand menu, select Endpoints and open the predict-rentals real-time endpoint.
+
+2. On the predict-rentals real-time endpoint page view the Test tab.
+
+3. In the Input data to test endpoint pane, replace the template JSON with the following input data:
+
+```
+{
+  "Inputs": {
+    "data": [
+      {
+        "car_make": "Toyota",
+        "car_model": "4Runner",
+        "year": 0,
+        "condition": "new",
+        "mileage": 0
+      }
+    ]
+  },
+  "GlobalParameters": 1.0
+}
+```
+
+4. Click the Test button.
+
+5. Review the test results, which include a predicted number of rentals based on the input features - similar to this:
+```
+{
+"Results":[
+0:23712.678693295537
+]
+}
+```
